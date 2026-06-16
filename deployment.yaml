@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-k8s-deployment
+  labels:
+    app: fastapi-k8s-app
+spec:
+  replicas: 2 # ★インフラのポイント：常に2つのコンテナを並列で動かす指示
+  selector:
+    matchLabels:
+      app: fastapi-k8s-app
+  template:
+    metadata:
+      labels:
+        app: fastapi-k8s-app
+    spec:
+      containers:
+      - name: fastapi-k8s-container
+        image: fastapi-k8s-app:latest # ★前回誠さんがビルドしたイメージ名
+        imagePullPolicy: Never # ★ローカル（Codespaces内）のイメージをそのまま使う設定
+        ports:
+        - containerPort: 8000

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-k8s-service
+spec:
+  type: NodePort # ★インフラのポイント：クラスター外部からのアクセスを許可する
+  selector:
+    app: fastapi-k8s-app # ★さっきのDeploymentで指定したコンテナのラベルと紐づける
+  ports:
+  - protocol: TCP
+    port: 8000       # Service自身が受けるポート
+    targetPort: 8000 # 転送先（コンテナ側）のポート
+    nodePort: 30080  # ★ホスト側（Codespaces側）から叩くためのポート番号
